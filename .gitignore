@@ -1,0 +1,5 @@
+node_modules/
+launch.json
+server-settings/
+.env
+*bundle.js

@@ -1,28 +1,33 @@
 const httpModule = function() {
   this.post = function(/*string*/ url, /*{ body: {} }*/ options) {
+    options = options || {};
+    const req = new XMLHttpRequest();
     return new Promise((resolve, reject) => {
-      const req = new XMLHttpRequest();
-      req.onreadystatechange = function(response) {
-        if (req.status > 200 && req.status < 300) {
-          resolve(response);
-        } else {
-          reject({ error: true, reason: response });
+      req.onreadystatechange = function() {
+        if (req.readyState === 4) {
+          if (req.status >= 200 && req.status < 300) {
+            resolve(req.response);
+          } else {
+            reject({ error: true, reason: req.response });
+          }
         }
       };
       req.open('POST', url, true);
       req.setRequestHeader('Content-Type', 'application/json');
-      req.send(options.body || null);
+      req.send(JSON.stringify(options.data));
     });
   };
 
   this.get = function(/*string*/ url, /*{ params: {} }*/ options) {
+    const req = new XMLHttpRequest();
     return new Promise((resolve, reject) => {
-      const req = new XMLHttpRequest();
-      req.onreadystatechange = function(response) {
-        if (req.status > 200 && req.status < 300) {
-          resolve(response);
-        } else {
-          reject({ error: true, reason: response });
+      req.onreadystatechange = function() {
+        if (req.readyState === 4) {
+          if (req.status >= 200 && req.status < 300) {
+            resolve(req.response);
+          } else {
+            reject({ error: true, reason: req.response });
+          }
         }
       };
       req.open('GET', url, true);

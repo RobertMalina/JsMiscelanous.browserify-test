@@ -4,7 +4,8 @@
   "description": "Originally, created in purpose to test browserify",
   "main": "main.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "watch": "watchify main.js -o ./js.dist/bundle.js -v --debug"
   },
   "author": "Robert Malina",
   "license": "ISC",

@@ -3,7 +3,7 @@ const { createOrderRow } = require('./ui/order-list-item');
 const DataService = require('./service');
 
 const list = new ItemList({
-  selector: '#order-list',
+  selector: '#orders-list',
   createRow: createOrderRow,
   title: 'Orders list',
 });

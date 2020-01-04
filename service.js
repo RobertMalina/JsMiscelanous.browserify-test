@@ -2,8 +2,8 @@ const HttpModule = require('./http-module');
 const DataService = function() {
   const httpModule = new HttpModule();
 
-  this.paggingSupport = function() {
-    this.getOrders = function(
+  this.paggingSupport = {
+    getOrders: function(
       /*{     
         "page":number,
         "itemsOnPage": number,
@@ -15,17 +15,25 @@ const DataService = function() {
       const { onSuccess, onError } = validateCallbacks(successCb, errorCb);
       return httpModule
         .post('http://localhost:4210/api/orders/', { data: data })
-        .then(onSuccess(response))
-        .catch(onError(response));
-    };
+        .then(function(response) {
+          onSuccess(JSON.parse(response));
+        })
+        .catch(function(response) {
+          onError(response);
+        });
+    },
   };
 
   this.getOrders = function(/*Function*/ successCb, /*Function*/ errorCb) {
     const { onSuccess, onError } = validateCallbacks(successCb, errorCb);
     return httpModule
       .get('http://localhost:4210/api/orders/')
-      .then(onSuccess(response))
-      .catch(onError(response));
+      .then(function(response) {
+        onSuccess(JSON.parse(response));
+      })
+      .catch(function(response) {
+        onError(response);
+      });
   };
 
   const validateCallbacks = function(successCb, errorCb) {
